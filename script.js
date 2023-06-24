@@ -12,11 +12,11 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiaWFyYWtpc3RhaW4iLCJhIjoiY2podnY0cWs5MTAyaTNrb
      map.setFog({
             'color': 'rgb(237, 234, 222)',
          // Pink fog / lower atmosphere
-            'high-color': 'rgb(36, 92, 223)', // Blue sky / upper atmosphere
-            'horizon-blend': 0.2, // Exaggerate atmosphere (default is .1)
+            'high-color': 'rgb(35, 92, 223)', // Blue sky / upper atmosphere
+            'horizon-blend': 1, // Exaggerate atmosphere (default is .1)
           
           'space-color': 'rgb(220, 159, 159)', // Background color
-          'star-intensity': 0.3 // Background star brightness (default 0.35 at low zoooms )
+          'star-intensity': 0.6 // Background star brightness (default 0.35 at low zoooms )
         });
 
         map.addSource('mapbox-dem', {
@@ -100,7 +100,6 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiaWFyYWtpc3RhaW4iLCJhIjoiY2podnY0cWs5MTAyaTNrb
             e.target.innerHTML = 'Start rotation';
         }
     });
-
 map.addControl(new mapboxgl.NavigationControl());
 
 const directions = new MapboxDirections({
@@ -114,5 +113,4 @@ const directions = new MapboxDirections({
 });
 
 map.addControl(directions, 'top-left');
-
-    spinGlobe();
+spinGlobe();
