@@ -1,15 +1,13 @@
-<!DOCTYPE html>
-<html lang="en" >
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Club search globe</title>
- 
-
-  <!-- Import Mapbox GL Directions -->
+<meta charset="utf-8">
+<title>Club map</title>
+  
+<!-- Import Mapbox GL Directions -->
 <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.js"></script>
 <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.css" type="text/css">
-
-<meta name="description" content="Club Map"/>
+  
+    <meta name="description" content="Club Map"/>
     <meta name="keywords" content="Club, Map, 3D"/>
     <meta name="author" content="www.metabertsoa.eus"/>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no"/>
@@ -35,17 +33,15 @@
     <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
     <script src='https://npmcdn.com/csv2geojson@latest/csv2geojson.js'></script>
-    <script src='mapbox-gl-traffic.js'>
-      
-    </script>
+    <script src='mapbox-gl-traffic.js'></script>
+  
+    <!-- Import Turf and Polyline -->
+    <script src="https://npmcdn.com/@turf/turf/turf.min.js"></script>
+    <script src=https://cdnjs.cloudflare.com/ajax/libs/mapbox-polyline/1.1.1/polyline.js></script>
+    </head>
 
-</head>
 <body>
-<!-- partial:index.partial.html -->
 <div id="map"></div>
 <button id="btn-spin" hidden>Pause rotation</button>
-<!-- partial -->
-  <script src='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js'></script><script  src="./script.js"></script>
-
 </body>
 </html>
