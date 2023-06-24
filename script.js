@@ -101,4 +101,18 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiaWFyYWtpc3RhaW4iLCJhIjoiY2podnY0cWs5MTAyaTNrb
         }
     });
 
+map.addControl(new mapboxgl.NavigationControl());
+
+const directions = new MapboxDirections({
+  accessToken: mapboxgl.accessToken,
+  unit: 'metric',
+  profile: 'mapbox/driving',
+  alternatives: false,
+  geometries: 'geojson',
+  controls: { instructions: false },
+  flyTo: false
+});
+
+map.addControl(directions, 'top-left');
+
     spinGlobe();
