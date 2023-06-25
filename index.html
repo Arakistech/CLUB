@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es_ES">
+<html lang="en_EN">
 <head>
     <script async src="https://www.googletagmanager.com/ns.html?id=GTM-MTHZJTG"></script>
     <script>
@@ -10,7 +10,7 @@
     </script>
     
     <meta charset="utf-8">
-    <title>GeoMapa Saludable</title>
+    <title>CLUB WORLDMAP</title>
 	
     <meta name="description" content="GeoMapa saludable de Ermua - by Metabertsoa"/>
     <meta name="keywords" content="Izarra, Ermua, threejs"/>
@@ -205,7 +205,7 @@
     mapboxgl.accessToken = 'pk.eyJ1IjoiaWFyYWtpc3RhaW4iLCJhIjoiY2t4NHBqNHd1MHRvaTJubnhodmxqdXhjbiJ9.T6OE8lXKHGCObadLCmIoqg';
     const map = new mapboxgl.Map({
         container: 'map',
-       style:'mapbox://styles/iarakistain/clj8euaod003n01o0di9960rp',
+        style:'mapbox://styles/iarakistain/clj8euaod003n01o0di9960rp',
         center:[-90, 40],
         pitch:0,
         projection:'globe',
@@ -213,7 +213,7 @@
         minZoom: 1,
         maxZoom: 18,
         hash: true,
-	    preserveDrawingBuffer: true,
+	preserveDrawingBuffer: true,
         language: 'en'
     });
           
@@ -726,19 +726,6 @@ function resetRoute() {
 
 
 	    
-   map.on('style.load', () => {
-        // Custom atmosphere styling
-     map.setFog({
-            'color': 'rgb(237, 234, 222)',
-         // Pink fog / lower atmosphere
-            'high-color': 'rgb(35, 92, 223)', // Blue sky / upper atmosphere
-            'horizon-blend': 1, // Exaggerate atmosphere (default is .1)
-          
-          'space-color': 'rgb(220, 159, 159)', // Background color
-          'star-intensity': 0.6 // Background star brightness (default 0.35 at low zoooms )
-        });
-
-
 	    
     map.on('load', function() {
         routeLayers = [...map.getStyle().layers.filter(layer => layer.source == 'directions')];
@@ -956,18 +943,18 @@ rainBg.addEventListener('click', () => {
     rainBg.style.display = 'none';
 });
 
-rain.addEventListener('click', e => {
+    rain.addEventListener('click', e => {
     e.stopPropagation();
 });
 
-rainColorButton.addEventListener('click', e => {
+    rainColorButton.addEventListener('click', e => {
     rainColorButton.classList.add('active');
     snowColorButton.classList.remove('active');
     rainColorPicker.classList.add('active');
     snowColorPicker.classList.remove('active');
 });
 
-snowColorButton.addEventListener('click', e => {
+    snowColorButton.addEventListener('click', e => {
     snowColorButton.classList.add('active');
     rainColorButton.classList.remove('active');
     snowColorPicker.classList.add('active');
