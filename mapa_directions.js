@@ -13,35 +13,6 @@ var map = new mapboxgl.Map({
 
 
 
-
-   map.on('style.load', () => {
-        // Custom atmosphere styling
-     map.setFog({
-            'color': 'rgb(237, 234, 222)',
-         // Pink fog / lower atmosphere
-            'high-color': 'rgb(35, 92, 223)', // Blue sky / upper atmosphere
-            'horizon-blend': 1, // Exaggerate atmosphere (default is .1)
-          
-          'space-color': 'rgb(220, 159, 159)', // Background color
-          'star-intensity': 0.6 // Background star brightness (default 0.35 at low zoooms )
-        });
-
-        map.addSource('mapbox-dem', {
-            'type': 'raster-dem',
-            'url': 'mapbox://mapbox.terrain-rgb'
-        });
-
-        map.setTerrain({
-            'source': 'mapbox-dem',
-            'exaggeration': 1.5
-        });
-    });
-
-
-
-
-
-
 // Agregar barra de navegacion
 document
 .getElementById('listing-group')
