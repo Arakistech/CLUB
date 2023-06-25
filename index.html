@@ -146,10 +146,8 @@
                 const me = this;
 
                 me._map = map;
-
                 me._container = document.createElement('div');
                 me._container.className = 'mapboxgl-ctrl mapboxgl-ctrl-group';
-
                 me._buttons = me._options.map(options => {
                     const button = document.createElement('button'),
                         icon = document.createElement('span'),
@@ -208,10 +206,10 @@
     const map = new mapboxgl.Map({
         container: 'map',
        style:'mapbox://styles/iarakistain/clj8euaod003n01o0di9960rp',
-        center:[-2.505511, 43.186665],
+        center:[-90, 40],
         pitch:40,
         projection:'globe',
-        zoom:1,
+        zoom:1.9,
         minZoom: 1,
         maxZoom: 18,
         hash: true,
