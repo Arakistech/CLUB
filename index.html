@@ -782,10 +782,7 @@ map.on('load', () => {
         //     </video>
 	    
 	    
-        let popupContent = `<div class="popup-content">
-            <h5>${ft.properties.Direccion}</h5>
-            <iframe src="${videos[video]}" class="video" allow="autoplay"></iframe>
-        </div>`;
+        let popupContent = `<div class="popup-content" ></div>`;
 
         let popup = new mapboxgl.Popup({focusAfterOpen:false}).setHTML(popupContent);
         popup.on('open', function() {
@@ -810,6 +807,8 @@ map.on('load', () => {
             map.once('zoomend', () => {
                 map.setPitch(60, {duration: 2000});
             });
+
+            mapMarker.togglePopup();
         }
 
         return mapMarker.setPopup(popup).setLngLat(ft.geometry.coordinates).addTo(map)
