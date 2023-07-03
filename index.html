@@ -208,7 +208,31 @@
     const info = document.getElementById('info');
     let mapStyle = 'terrain';
 	
-	    
+	const isMobilePhone = () => {
+        let hasTouchScreen = false;
+
+        if ("maxTouchPoints" in navigator) {
+            hasTouchScreen = navigator.maxTouchPoints > 0;
+        } else if ("msMaxTouchPoints" in navigator) {
+            hasTouchScreen = navigator.msMaxTouchPoints > 0;
+        } else {
+            var mQ = window.matchMedia && matchMedia("(pointer:coarse)");
+            if (mQ && mQ.media === "(pointer:coarse)") {
+                hasTouchScreen = !!mQ.matches;
+            } else if ('orientation' in window) {
+                hasTouchScreen = true; // deprecated, but good fallback
+            } else {
+                // Only as a last resort, fall back to user agent sniffing
+                var UA = navigator.userAgent;
+                hasTouchScreen = (
+                    /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
+                    /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA)
+                );
+            }
+        }
+
+        return hasTouchScreen;
+    }
 	    
     mapboxgl.accessToken = 'pk.eyJ1IjoiaWFyYWtpc3RhaW4iLCJhIjoiY2t4NHBqNHd1MHRvaTJubnhodmxqdXhjbiJ9.T6OE8lXKHGCObadLCmIoqg';
     const map = new mapboxgl.Map({
@@ -217,17 +241,14 @@
         center:[-90, 40],
         pitch:0,
         projection:'globe',
-        zoom:1.9,
-        minZoom: 1,
+        zoom: isMobilePhone() ? 0.7: 1.9,
+        minZoom: 0,
         maxZoom: 18,
         hash: true,
-	preserveDrawingBuffer: true,
+	    preserveDrawingBuffer: true,
         language: 'en'
     });
 	
-
-
-
 
 
    map.on('style.load', () => {
@@ -294,41 +315,58 @@
     // Restart spinning the globe when interaction is complete
     map.on('mouseup', () => {
         userInteracting = false;
-        spinGlobe();
+        if(!isMobilePhone()) {
+            spinGlobe();
+        }
+
     });
 
     // These events account for cases where the mouse has moved
     // off the map, so 'mouseup' will not be fired.
     map.on('dragend', () => {
         userInteracting = false;
-        spinGlobe();
+        if(!isMobilePhone()) {
+            spinGlobe();
+        }
+
     });
     map.on('pitchend', () => {
         userInteracting = false;
-        spinGlobe();
+        if(!isMobilePhone()) {
+            spinGlobe();
+        }
+
     });
     map.on('rotateend', () => {
         userInteracting = false;
-        spinGlobe();
+        if(!isMobilePhone()) {
+            spinGlobe();
+        }
+
     });
 
     // When animation is complete, start spinning if there is no ongoing interaction
     map.on('moveend', () => {
-        spinGlobe();
-    });
-
-    document.getElementById('btn-spin').addEventListener('click', (e) => {
-        spinEnabled = !spinEnabled;
-        if (spinEnabled) {
+        if(!isMobilePhone()) {
             spinGlobe();
-            e.target.innerHTML = 'Pause rotation';
-        } else {
-            map.stop(); // Immediately end ongoing animation
-            e.target.innerHTML = 'Start rotation';
         }
     });
 
-spinGlobe();
+    if(!isMobilePhone()) {
+        document.getElementById('btn-spin').addEventListener('click', (e) => {
+            spinEnabled = !spinEnabled;
+            if (spinEnabled) {
+                spinGlobe();
+                e.target.innerHTML = 'Pause rotation';
+            } else {
+                map.stop(); // Immediately end ongoing animation
+                e.target.innerHTML = 'Start rotation';
+            }
+        });
+
+    spinGlobe();
+    }
+    
 
 
 
@@ -797,12 +835,12 @@ const directions = new MapboxDirections({
         unit: 'metric',
         profile: 'mapbox/walking',
         alternatives: true,
-	container: 'map', // container id	
+	    container: 'map', // container id	
         geometries: 'geojson',
         controls: { instructions: true },
+        interactive:false,
         flyTo: true,
-        preserveDrawingBuffer: true,	
-        language: 'es'
+        preserveDrawingBuffer: true
 });
 
 map.addControl(directions, 'top-left');

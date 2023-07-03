@@ -177,6 +177,7 @@ html, body {
     border-radius: 4px;
     z-index: 1;
 }
+
 .mapboxgl-ctrl button.mapboxgl-ctrl-map .mapboxgl-ctrl-icon {
     background: no-repeat center/22px url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'%3E%3Cpath fill='%23333' d='M0 117.66v346.32c0 11.32 11.43 19.06 21.94 14.86L160 416V32L20.12 87.95A32.006 32.006 0 0 0 0 117.66zM192 416l192 64V96L192 32v384zM554.06 33.16L416 96v384l139.88-55.95A31.996 31.996 0 0 0 576 394.34V48.02c0-11.32-11.43-19.06-21.94-14.86z'%3E%3C/path%3E%3C/svg%3E");
 }
@@ -320,17 +321,32 @@ html, body {
 }
 
 .livecam-marker {
-    width: 40px;
-    height: 40px;
-    border: 2px solid #333;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #c1c1c1;
     border-radius: 50%;
-    background: white no-repeat center/20px url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'%3E%3Cpath fill='%23333' d='M384 112v288c0 26.51-21.49 48-48 48h-288c-26.51 0-48-21.49-48-48v-288c0-26.51 21.49-48 48-48h288C362.5 64 384 85.49 384 112zM576 127.5v256.9c0 25.5-29.17 40.39-50.39 25.79L416 334.7V177.3l109.6-75.56C546.9 87.13 576 102.1 576 127.5z'%3E%3C/path%3E%3C/svg%3E");
+    background: white no-repeat center/30px url("assets/images/club-bg.png");
     cursor: pointer;
+
+    -webkit-animation: glow 1s ease-in-out infinite alternate;
+    -moz-animation: glow 1s ease-in-out infinite alternate;
+    animation: glow 1s ease-in-out infinite alternate;
+
+    
+}
+
+@keyframes glow {
+    from {
+      box-shadow: 0 0 2px #fff, 0 0 4px #fff, 0 0 6px #e60073, 0 0 8px #e60073, 0 0 10px #e60073, 0 0 12px #e60073, 0 0 14px #e60073;
+    }
+    to {
+      box-shadow: 0 0 2px #fff, 0 0 4px #ff4da6, 0 0 8px #ff4da6, 0 0 12px #ff4da6, 0 0 14px #ff4da6, 0 0 16px #ff4da6, 0 0 20px #ff4da6;
+    }
 }
 
 .livecam-marker:hover, .livecam-marker.active {
     border-color: #33B5E5;
-    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'%3E%3Cpath fill='%2333B5E5' d='M384 112v288c0 26.51-21.49 48-48 48h-288c-26.51 0-48-21.49-48-48v-288c0-26.51 21.49-48 48-48h288C362.5 64 384 85.49 384 112zM576 127.5v256.9c0 25.5-29.17 40.39-50.39 25.79L416 334.7V177.3l109.6-75.56C546.9 87.13 576 102.1 576 127.5z'%3E%3C/path%3E%3C/svg%3E");
+    background-image: url("assets/images/club-bg.png");
 }
 
 .mapboxgl-popup {
