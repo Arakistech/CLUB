@@ -810,6 +810,8 @@ map.on('load', () => {
             map.once('zoomend', () => {
                 map.setPitch(60, {duration: 2000});
             });
+
+            mapMarker.togglePopup();
         }
 
         return mapMarker.setPopup(popup).setLngLat(ft.geometry.coordinates).addTo(map)
