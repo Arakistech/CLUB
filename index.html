@@ -490,7 +490,7 @@
             markerInstance.togglePopup();
         }
 
-        markerInstance.addTo(map);
+        // markerInstance.addTo(map);
 
       })
     })
@@ -796,9 +796,9 @@ map.on('load', () => {
             markerDiv.classList.remove('active')
         });
 
-        markerDiv.onmouseover = function(e) {
-           mapMarker.togglePopup();
-        }
+        // markerDiv.onmouseover = function(e) {
+        //    mapMarker.togglePopup();
+        // }
 
         markerDiv.onclick = function(e) {
             e.stopPropagation();
@@ -838,7 +838,7 @@ const directions = new MapboxDirections({
 	    container: 'map', // container id	
         geometries: 'geojson',
         controls: { instructions: true },
-        interactive:false,
+        interactive:true,
         flyTo: true,
         preserveDrawingBuffer: true
 });
@@ -910,16 +910,16 @@ function resetRoute() {
                     rainBg.style.display = 'block';
                 }
             }, 
-            {
-                className: 'mapboxgl-ctrl-defibrilators',
-                title: 'Desfibriladores',
-                eventHandler() {
-                    showDefibrilators = !showDefibrilators;
-                    let visibilityStatus = showDefibrilators ? 'visible' : 'none';
+            // {
+            //     className: 'mapboxgl-ctrl-defibrilators',
+            //     title: 'Desfibriladores',
+            //     eventHandler() {
+            //         showDefibrilators = !showDefibrilators;
+            //         let visibilityStatus = showDefibrilators ? 'visible' : 'none';
 
-                    map.setLayoutProperty('defibrilators', 'visibility', visibilityStatus);
-                }
-            },
+            //         map.setLayoutProperty('defibrilators', 'visibility', visibilityStatus);
+            //     }
+            // },
 		 {
                 className: 'mapboxgl-ctrl-world',
                 title: 'Mundo', 
@@ -932,26 +932,6 @@ function resetRoute() {
                 		}
                 
             },
-		
-	        {
-                className: 'mapboxgl-ctrl-home',
-                title: 'Cámaras',
-                eventHandler() {
-                    console.log("")
-                    showMarkers = !showMarkers;
-
-                    // toggle 
-                    videoMarkers.forEach(marker => {
-                        if(showMarkers) {
-                            marker.addTo(map);
-                        } else {
-                            marker.remove();
-                        }
-                    });
-
-                
-                	}
-	        },
 						  
 	        {
                 className: 'mapboxgl-ctrl-info',
@@ -975,7 +955,7 @@ function resetRoute() {
             'iarakistain/cl65izeqo000x14ti16nbcx42', 
             'iarakistain/cl65iqpnc003114n3awqprzvs',
             'iarakistain/cl65i9s4g000q15oxdwsvktsv',
-	    'iarakistain/cl64qr1rf000414oal5n058aj'
+	        'iarakistain/cl64qr1rf000414oal5n058aj'
         ];
 
         for (const style of styles) {
@@ -1082,17 +1062,17 @@ function addDefibrilators() {
         data:'Ubicaciones_Desfibriladores_LatLong.json'
     });
 
-    map.addLayer({
-        id:'defibrilators',
-        source:'defibrilators',
-        type:'symbol',
-        paint:{},
-        layout:{
-            'icon-image':'defibrilators',
-            'icon-size':0.3,
-            'visibility':'none'
-        }
-    });
+    // map.addLayer({
+    //     id:'defibrilators',
+    //     source:'defibrilators',
+    //     type:'symbol',
+    //     paint:{},
+    //     layout:{
+    //         'icon-image':'defibrilators',
+    //         'icon-size':0.3,
+    //         'visibility':'none'
+    //     }
+    // });
 }
    
 	    
