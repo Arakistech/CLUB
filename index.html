@@ -237,7 +237,7 @@
     mapboxgl.accessToken = 'pk.eyJ1IjoiaWFyYWtpc3RhaW4iLCJhIjoiY2t4NHBqNHd1MHRvaTJubnhodmxqdXhjbiJ9.T6OE8lXKHGCObadLCmIoqg';
     const map = new mapboxgl.Map({
         container: 'map',
-        style:'mapbox://styles/iarakistain/clj8euaod003n01o0di9960rp',
+        style:'mapbox://styles/iarakistain/cljwj66za021401qyd1oidsd1',
         center:[-90, 40],
         pitch:0,
         projection:'globe',
@@ -259,7 +259,7 @@
             'high-color': 'rgb(35, 92, 223)', // Blue sky / upper atmosphere
             'horizon-blend': 1, // Exaggerate atmosphere (default is .1)
           
-          'space-color': 'rgb(220, 159, 159)', // Background color
+          'space-color': 'darkblue', // Background color
           'star-intensity': 0.6 // Background star brightness (default 0.35 at low zoooms )
         });
 
@@ -902,13 +902,13 @@ function resetRoute() {
                     mapStyleBg.style.display = 'block';
                 }
             }, 
-            {
-                className: 'mapboxgl-ctrl-rain',
-                title: 'Opacidad color de lluvia',
-                eventHandler() {
-                    rainBg.style.display = 'block';
-                }
-            }, 
+            // {
+            //     className: 'mapboxgl-ctrl-rain',
+            //     title: 'Opacidad color de lluvia',
+            //     eventHandler() {
+            //         rainBg.style.display = 'block';
+            //     }
+            // }, 
             // {
             //     className: 'mapboxgl-ctrl-defibrilators',
             //     title: 'Desfibriladores',
@@ -932,13 +932,13 @@ function resetRoute() {
                 
             },
 						  
-	        {
-                className: 'mapboxgl-ctrl-info',
-                title: 'Info',
-                eventHandler() {
-                    infoBg.style.display = 'block';
-                }
-            }
+	        // {
+            //     className: 'mapboxgl-ctrl-info',
+            //     title: 'Info',
+            //     eventHandler() {
+            //         infoBg.style.display = 'block';
+            //     }
+            // }
         ]));
 
         mapStyleBg.addEventListener('click', () => {
