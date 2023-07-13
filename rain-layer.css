@@ -324,11 +324,12 @@ html, body {
 }
 
 .livecam-marker {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     border: 1px solid #c1c1c1;
     border-radius: 50%;
-    background: white no-repeat center/30px url("assets/images/club-bg.png");
+    background: rgba(199, 199, 199, 0.8) no-repeat center/40px url("assets/images/club-bg.png");
+    background-size: cover;
     cursor: pointer;
 
     -webkit-animation: glow 1s ease-in-out infinite alternate;
@@ -340,10 +341,11 @@ html, body {
 
 @keyframes glow {
     from {
-      box-shadow: 0 0 2px #fff, 0 0 4px #fff, 0 0 6px #e60073, 0 0 8px #e60073, 0 0 10px #e60073, 0 0 12px #e60073, 0 0 14px #e60073;
+      box-shadow: 0 0 2px #fff, 0 0 4px #fff, 0 0 6px #e6cb00, 0 0 8px #e6cb00, 0 0 10px #e6cb00, 0 0 12px #e6cb00, 0 0 14px #e6cb00;
     }
     to {
-      box-shadow: 0 0 2px #fff, 0 0 4px #ff4da6, 0 0 8px #ff4da6, 0 0 12px #ff4da6, 0 0 14px #ff4da6, 0 0 16px #ff4da6, 0 0 20px #ff4da6;
+        box-shadow: 0 0 2px #fff, 0 0 4px #fff, 0 0 6px #e6cb00, 0 0 8px #e6cb00, 0 0 10px #e6cb00, 0 0 12px #e6cb00, 0 0 14px #e6cb00;
+      /* box-shadow: 0 0 2px #fff, 0 0 4px #fff64d, 0 0 8px #fff64d, 0 0 12px #fff64d, 0 0 14px #fff64d, 0 0 16px #fff64d, 0 0 20px #fff64d; */
     }
 }
 
