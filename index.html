@@ -28,6 +28,8 @@
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/35bfc7e8c123f9d5.png">
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css" rel="stylesheet">
     <link href="rain-layer.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/monolith.min.css" rel="stylesheet">
     <link href='mapbox-gl-traffic.css' rel='stylesheet' />
 	
@@ -53,7 +55,21 @@
 <body>
     <div id="root">
         <div id="map">
-		<button id="btn-spin" hidden>Pause rotation</button>
+
+            <div class="basemap-toggler">
+                <label class="switch">
+                    <input type="checkbox" id="map-toggler" checked>
+                    
+                    <span class="slider round">
+                        <span id="active-icon" class="active-icon"> 
+                            <i class="fa fa-moon"></i>
+                            <i class="fa fa-sun"></i>
+                        </span>
+                    </span>
+                </label>
+            </div>
+            
+		    <button id="btn-spin" hidden>Pause rotation</button>
             <div class="video-toggler"></div>
              <div id="instructions"></div>
                 <div id="left" class="sidebar flex-center left collapsed">
@@ -252,15 +268,28 @@
 
 
    map.on('style.load', () => {
+        // update mabox style
+        let mapToggler = document.getElementById("map-toggler");
+
+        mapToggler.onchange =  (e) => {
+            console.log(e.target.checked);
+
+            if(e.target.checked) {
+                updateMapStyle(true);
+            } else {
+                updateMapStyle(false);
+            }
+        }
+
         // Custom atmosphere styling
-     map.setFog({
+        map.setFog({
             'color': 'rgb(237, 234, 222)',
-         // Pink fog / lower atmosphere
+            // Pink fog / lower atmosphere
             'high-color': 'rgb(35, 92, 223)', // Blue sky / upper atmosphere
             'horizon-blend': 1, // Exaggerate atmosphere (default is .1)
           
-          'space-color': 'darkblue', // Background color
-          'star-intensity': 0.6 // Background star brightness (default 0.35 at low zoooms )
+            'space-color': 'darkblue', // Background color
+            'star-intensity': 0.6 // Background star brightness (default 0.35 at low zoooms )
         });
 
         map.addSource('mapbox-dem', {
@@ -273,6 +302,23 @@
             'exaggeration': 1.5
         });
     });
+
+    function updateMapStyle(isDarkStyle) {
+        if(isDarkStyle) {
+            map.setStyle("mapbox://styles/iarakistain/cljwj66za021401qyd1oidsd1");
+        } else {
+            map.setStyle("mapbox://styles/mapbox/light-v11");
+        }
+
+        if(!!map.getSource('directions')) {
+            resetRoute();
+        }
+
+        map.once("styledata", (e) => {
+            updatebuildingStyles();
+        })
+        
+    }
 
 
 
@@ -491,9 +537,8 @@
         }
 
         // markerInstance.addTo(map);
-
       })
-    })
+    });
 
     $('#map').on('click', '.popup .cycle a', function () {
       var $slideshow = $('.slideshow'),
@@ -517,8 +562,17 @@
     });
         
             
-let videoMarkers, showMarkers=true, showDefibrilators=false;    
+let videoMarkers, showMarkers=true, showDefibrilators = false;
+const buildingIds = {
+    33608817:"Port du soleil ", 
+    158287024:"Yaki-Da", 
+    228068:"Sturehof", 
+    16108358:"Café opera", 
+    681438390:"Etage"
+}; 
+
 map.on('load', () => {		
+
     map.addSource('places', {
     'type': 'geojson',
     'data': {
@@ -733,7 +787,7 @@ map.on('load', () => {
     map.on('zoomend', function(e) {
         let zoom = map.getZoom();
 
-        if(zoom > 16) {
+        if(zoom > 16 && map.getLayer('rain')) {
             map.removeLayer(rainLayer);
         } else {
             if(!map.getLayer('rain')) {
@@ -814,9 +868,85 @@ map.on('load', () => {
         return mapMarker.setPopup(popup).setLngLat(ft.geometry.coordinates).addTo(map)
     }
 
+    // map.addLayer('building', )
+
     // accessibility control
-    
-});    
+    map.on("click", "building", (e) => {
+        console.log(e);
+        let feature = e.features[0];
+
+        let id = feature.id;
+
+        console.log(Object.keys(buildingIds));
+        if(Object.keys(buildingIds).includes(id.toString())) {
+            let name = buildingIds[id];
+
+            console.log("Updated");
+
+            popup
+                .setLngLat(e.lngLat)
+                .setHTML(`<div>${name}</div>`)
+                .addTo(map);
+        } else {
+            popup.remove();
+        }
+    });
+
+    updatebuildingStyles();
+});
+
+function addBuildingLayer() {
+    map.addLayer({
+        'id': 'add-3d-buildings',
+        'source': 'composite',
+        'source-layer': 'building',
+        'filter': ['==', 'extrude', 'true'],
+        'type': 'fill-extrusion',
+        'minzoom': 15,
+        'paint': {
+            'fill-extrusion-color': '#aaa',
+            'fill-extrusion-height': [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                15,
+                0,
+                15.05,
+                ['get', 'height']
+            ],
+            'fill-extrusion-base': [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                15,
+                0,
+                15.05,
+                ['get', 'min_height']
+            ],
+            'fill-extrusion-opacity': 0.6
+        }
+    });
+}
+
+function updatebuildingStyles() {
+    let ids = Object.keys(buildingIds);
+
+    // map.setFilter();
+    if(map.getLayer('building copy 1')) {
+        map.setPaintProperty(
+            'building copy', 
+            'fill-extrusion-color', 
+            ['case', ['in', ['to-string',['id']], ["literal", [...ids] ]], 'orange', '#404040'],
+        );
+    } else {
+        map.setPaintProperty(
+            'building', 
+            'fill-color', 
+            ['case', ['in', ['to-string',['id']], ["literal", [...ids] ]], 'orange', '#ddd'],
+        );
+    }
+   
+}
 
 function loadAccessibilityControl() {
     let layers = (map.getLayer('poi-label') && map.getLayer('transit-label')) ? ['poi-label','transit-label'] : [];
@@ -827,7 +957,20 @@ function loadAccessibilityControl() {
 
     map.addControl(accessibilityControl);
 }
-	    
+	
+// geolocation Control
+// Add geolocate control to the map.
+
+const geolocationCtrl = new mapboxgl.GeolocateControl({
+    positionOptions: {
+        enableHighAccuracy: true
+    },
+    // When active the map will receive updates to the device's location as it changes.
+    trackUserLocation: true,
+    // Draw an arrow next to the location dot to indicate which direction the device is heading.
+    showUserHeading: true
+});
+
 	    
 const directions = new MapboxDirections({
         accessToken: mapboxgl.accessToken,
@@ -837,7 +980,7 @@ const directions = new MapboxDirections({
 	    container: 'map', // container id	
         geometries: 'geojson',
         controls: { instructions: true },
-        interactive:true,
+        interactive:false,
         flyTo: true,
         preserveDrawingBuffer: true
 });
@@ -862,21 +1005,23 @@ function resetRoute() {
         mapLoadTimer();
     }, 1000);
 
+
     function mapLoadTimer() {
         if(map.getSource('directions')) {clearInterval(timerInterval);}
         if(!map.getSource('directions') && map.loaded()) {
             	console.log("Updating Map Directions");
+
             	map.addSource('directions', {
-                type:'geojson',
-                data:{...routeData}
-            });
+                    type:'geojson',
+                    data:{...routeData}
+                });
 
             routeLayers.forEach(layer => map.addLayer(layer));
             // directions.setOrigin(origin.geometry.coordinates);
             clearInterval(timerInterval);
         }
 
-        map.getLayer('defibrilators') ? "": addDefibrilators();
+        // map.getLayer('defibrilators') ? "": addDefibrilators();
     }
 
     
@@ -892,6 +1037,7 @@ function resetRoute() {
 
     map.scrollZoom.enable();
     map.addControl(new mapboxgl.NavigationControl());
+    map.addControl(geolocationCtrl);
     map.addControl(new MapboxTraffic());
     map.addControl(new mapboxgl.FullscreenControl({container: root}));
         map.addControl(new MapboxGLButtonControl([
@@ -901,44 +1047,18 @@ function resetRoute() {
                 eventHandler() {
                     mapStyleBg.style.display = 'block';
                 }
-            }, 
-            // {
-            //     className: 'mapboxgl-ctrl-rain',
-            //     title: 'Opacidad color de lluvia',
-            //     eventHandler() {
-            //         rainBg.style.display = 'block';
-            //     }
-            // }, 
-            // {
-            //     className: 'mapboxgl-ctrl-defibrilators',
-            //     title: 'Desfibriladores',
-            //     eventHandler() {
-            //         showDefibrilators = !showDefibrilators;
-            //         let visibilityStatus = showDefibrilators ? 'visible' : 'none';
-
-            //         map.setLayoutProperty('defibrilators', 'visibility', visibilityStatus);
-            //     }
-            // },
-		 {
+            },
+            {
                 className: 'mapboxgl-ctrl-world',
                 title: 'Mundo', 
-			 
-		 eventHandler() {
-                    map.flyTo({
-            center: [-38.2, 38.9], zoom: 1, pitch: 13, bearing: 0,
-            essential: true // this animation is considered essential with respect to prefers-reduced-motion
-        });
-                		}
+                eventHandler() {
+                            map.flyTo({
+                                center: [-38.2, 38.9], zoom: 1, pitch: 13, bearing: 0,
+                                essential: true // this animation is considered essential with respect to prefers-reduced-motion
+                            });
+                }
                 
-            },
-						  
-	        // {
-            //     className: 'mapboxgl-ctrl-info',
-            //     title: 'Info',
-            //     eventHandler() {
-            //         infoBg.style.display = 'block';
-            //     }
-            // }
+            }
         ]));
 
         mapStyleBg.addEventListener('click', () => {
@@ -999,14 +1119,14 @@ function resetRoute() {
     });           
             
   map.on('load', function(){
-  var scale = new mapboxgl.ScaleControl({
-    maxWidth: 80,
-    unit: 'metric'
-  });
+    var scale = new mapboxgl.ScaleControl({
+        maxWidth: 80,
+        unit: 'metric'
+    });
 
-  map.addControl(scale);
-  
-});    
+    map.addControl(scale);
+    
+    });    
        
         
 function toggleSidebar(id) {
