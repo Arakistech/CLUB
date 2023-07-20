@@ -737,7 +737,8 @@ map.on('load', () => {
              coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
          }
         
-        popup.setLngLat(coordinates).setHTML(description).addTo(map);
+        popup.setLngLat(coordinates).setHTML(description)
+        // .addTo(map);
      });
     
     map.on('mouseleave', 'defibrilators', () => {
@@ -788,12 +789,14 @@ map.on('load', () => {
         let zoom = map.getZoom();
 
         if(zoom > 16 && map.getLayer('rain')) {
-            map.removeLayer(rainLayer);
+            map.removeLayer('rain');
         } else {
             if(!map.getLayer('rain')) {
                 map.getLayer('water-boundary-bg') ? map.addLayer(rainLayer, 'water-boundary-bg') : map.addLayer(rainLayer);
             }
         }
+
+        toggleMarkers();
     });
 
     // display the camera
@@ -865,7 +868,15 @@ map.on('load', () => {
             mapMarker.togglePopup();
         }
 
-        return mapMarker.setPopup(popup).setLngLat(ft.geometry.coordinates).addTo(map)
+        let zoom = map.getZoom();
+        if(zoom <= 6) {
+            return mapMarker.setLngLat(ft.geometry.coordinates).addTo(map);
+        } else {
+            return mapMarker.setLngLat(ft.geometry.coordinates);
+        }
+        
+
+        // return mapMarker.setPopup(popup).setLngLat(ft.geometry.coordinates).addTo(map);
     }
 
     // map.addLayer('building', )
@@ -894,6 +905,20 @@ map.on('load', () => {
 
     updatebuildingStyles();
 });
+
+function toggleMarkers() {
+    let zoom = map.getZoom();
+
+    if(!videoMarkers) {
+        return;
+    }
+    // toggle video markers
+    if(zoom <= 6) {
+        videoMarkers.forEach(mkr => mkr.addTo(map));
+    } else {
+        videoMarkers.forEach(mkr => mkr.remove());
+    }
+}
 
 function addBuildingLayer() {
     map.addLayer({
@@ -1041,13 +1066,13 @@ function resetRoute() {
     map.addControl(new MapboxTraffic());
     map.addControl(new mapboxgl.FullscreenControl({container: root}));
         map.addControl(new MapboxGLButtonControl([
-            {
-                className: 'mapboxgl-ctrl-map',
-                title: 'Estilo del mapa',
-                eventHandler() {
-                    mapStyleBg.style.display = 'block';
-                }
-            },
+            // {
+            //     className: 'mapboxgl-ctrl-map',
+            //     title: 'Estilo del mapa',
+            //     eventHandler() {
+            //         mapStyleBg.style.display = 'block';
+            //     }
+            // },
             {
                 className: 'mapboxgl-ctrl-world',
                 title: 'Mundo', 
