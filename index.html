@@ -882,7 +882,7 @@ map.on('load', () => {
     // map.addLayer('building', )
 
     // accessibility control
-    map.on("click", "building", (e) => {
+    map.on("click", "building copy", (e) => {
         console.log(e);
         let feature = e.features[0];
 
@@ -965,9 +965,9 @@ function updatebuildingStyles() {
         );
     } else {
         map.setPaintProperty(
-            'building', 
-            'fill-color', 
-            ['case', ['in', ['to-string',['id']], ["literal", [...ids] ]], 'orange', '#ddd'],
+            'building copy', 
+            'fill-extrusion-color', 
+            ['case', ['in', ['to-string',['id']], ["literal", [...ids] ]], 'orange', '#bfbfbf'],
         );
     }
    
