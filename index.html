@@ -788,7 +788,7 @@ map.on('load', () => {
     map.on('zoomend', function(e) {
         let zoom = map.getZoom();
 
-        if(zoom > 16 && map.getLayer('rain')) {
+        if(zoom > 10 && map.getLayer('rain')) {
             map.removeLayer('rain');
         } else {
             if(!map.getLayer('rain')) {
@@ -948,7 +948,7 @@ function addBuildingLayer() {
                 15.05,
                 ['get', 'min_height']
             ],
-            'fill-extrusion-opacity': 0.6
+            'fill-extrusion-opacity': 0.4
         }
     });
 }
