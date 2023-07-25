@@ -998,18 +998,7 @@ const geolocationCtrl = new mapboxgl.GeolocateControl({
 });
 
 	    
-const directions = new MapboxDirections({
-        accessToken: mapboxgl.accessToken,
-        unit: 'metric',
-        profile: 'mapbox/walking',
-        alternatives: true,
-	    container: 'map', // container id	
-        geometries: 'geojson',
-        controls: { instructions: true },
-        interactive:true,
-        flyTo: true,
-        preserveDrawingBuffer: true
-});
+
 
 
 
