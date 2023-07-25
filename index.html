@@ -1011,27 +1011,12 @@ const directions = new MapboxDirections({
         preserveDrawingBuffer: true
 });
 
-map.addControl(directions, 'top-left');
-var routeLayers = [];
-var routeData =  {
-    type: 'FeatureCollection',
-    features: []
-};
-
-directions.on('route', function(e) {
-    // get the route data;
-    routeData = map.getSource('directions')._data;
-    console.log(routeData);
-})
-
-// direction reset on layer changes
-function resetRoute() {
-    // let origin = directions.getOrigin()
-    let timerInterval = setInterval(() => {
-        mapLoadTimer();
-    }, 1000);
 
 
+//BORRADO
+
+
+	    
     function mapLoadTimer() {
         if(map.getSource('directions')) {clearInterval(timerInterval);}
         if(!map.getSource('directions') && map.loaded()) {
