@@ -1035,31 +1035,7 @@ const geolocationCtrl = new mapboxgl.GeolocateControl({
         routeData = map.getSource('directions')._data;
     });
 
-    map.scrollZoom.enable();
-    map.addControl(new mapboxgl.NavigationControl());
-    map.addControl(geolocationCtrl);
-    map.addControl(new MapboxTraffic());
-    map.addControl(new mapboxgl.FullscreenControl({container: root}));
-        map.addControl(new MapboxGLButtonControl([
-            // {
-            //     className: 'mapboxgl-ctrl-map',
-            //     title: 'Estilo del mapa',
-            //     eventHandler() {
-            //         mapStyleBg.style.display = 'block';
-            //     }
-            // },
-            {
-                className: 'mapboxgl-ctrl-world',
-                title: 'Mundo', 
-                eventHandler() {
-                            map.flyTo({
-                                center: [-38.2, 38.9], zoom: 1, pitch: 13, bearing: 0,
-                                essential: true // this animation is considered essential with respect to prefers-reduced-motion
-                            });
-                }
-                
-            }
-        ]));
+  
 
         mapStyleBg.addEventListener('click', () => {
             mapStyleBg.style.display = 'none';
