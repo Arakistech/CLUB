@@ -1005,89 +1005,11 @@ const geolocationCtrl = new mapboxgl.GeolocateControl({
 //BORRADO
 
 
-	    
-    function mapLoadTimer() {
-        if(map.getSource('directions')) {clearInterval(timerInterval);}
-        if(!map.getSource('directions') && map.loaded()) {
-            	console.log("Updating Map Directions");
-
-            	map.addSource('directions', {
-                    type:'geojson',
-                    data:{...routeData}
-                });
-
-            routeLayers.forEach(layer => map.addLayer(layer));
-            // directions.setOrigin(origin.geometry.coordinates);
-            clearInterval(timerInterval);
-        }
-
-        // map.getLayer('defibrilators') ? "": addDefibrilators();
-    }
-
-    
-}
+	
 
 
 	    
-	    
-    map.on('load', function() {
-        routeLayers = [...map.getStyle().layers.filter(layer => layer.source == 'directions')];
-        routeData = map.getSource('directions')._data;
-    });
 
-  
-
-        mapStyleBg.addEventListener('click', () => {
-            mapStyleBg.style.display = 'none';
-        });
-
-        let styles = [
-            'terrain', 
-            'iarakistain/cl5guvut6006o14o1nl0ppe5u', 
-            'iarakistain/cl5gil0ym006614o1gkrym5ke', 
-            'iarakistain/cl4x51czl004514oga1amzw1s',
-            'iarakistain/cl65j5le2000z14tipe3hsnuy', 
-            'iarakistain/cl65izeqo000x14ti16nbcx42', 
-            'iarakistain/cl65iqpnc003114n3awqprzvs',
-            'iarakistain/cl65i9s4g000q15oxdwsvktsv',
-	        'iarakistain/cl64qr1rf000414oal5n058aj'
-        ];
-
-        for (const style of styles) {
-            const e = document.getElementById(style);
-            e.addEventListener('click', function (e) {
-                document.querySelector('#map-styles .active').classList.remove('active');
-                e.target.classList.add('active');
-                mapStyleBg.style.display = 'none';
-
-                if(map.getLayer('rain')) map.removeLayer('rain');
-                // map.removeLayer('directions');
-
-                
-                if(style.includes('iarakistain'))  {
-                    map.setStyle(`mapbox://styles/${style}`);
-                } else {
-                    map.setStyle(style === 'terrain' ? 'rain-layer.json' : `mapbox://styles/mapbox/${style}`);
-                }
-
-                map.setProjection('mercator');
-                map.once('styledata', () => {
-                    
-                    // map.once('styledata', () => {
-                       map.addLayer(rainLayer, style === 'terrain' ? 'water-boundary-bg' : style !== 'satellite-v9' ? 'road-label' : null);
-                    // });
-                    resetRoute();
-                    map.setProjection('mercator');
-                });
-		
-                // removeDirectionsLayers();
-                mapStyle = style;
-                // addDirectionsLayers();
-                
-            });
-        }
-            
-            
   
     $('#downloadLink').click(function() {
         var img = map.getCanvas().toDataURL('image/png')
