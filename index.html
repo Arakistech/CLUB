@@ -983,7 +983,63 @@ function loadAccessibilityControl() {
 
     map.addControl(accessibilityControl);
 }
-	
+
+
+	    
+const directions = new MapboxDirections({
+        accessToken: mapboxgl.accessToken,
+        unit: 'metric',
+        profile: 'mapbox/driving-traffic',
+        alternatives: true,
+	container: 'map', // container id	
+        geometries: 'geojson',
+        controls: { instructions: true },
+        flyTo: true,
+        preserveDrawingBuffer: true,	
+        language: 'en'
+});
+
+map.addControl(directions, 'top-left');
+var routeLayers = [];
+var routeData =  {
+    type: 'FeatureCollection',
+    features: []
+};
+
+directions.on('route', function(e) {
+    // get the route data;
+    routeData = map.getSource('directions')._data;
+    console.log(routeData);
+})
+
+// direction reset on layer changes
+function resetRoute() {
+    // let origin = directions.getOrigin()
+    let timerInterval = setInterval(() => {
+        mapLoadTimer();
+    }, 1000);
+
+    function mapLoadTimer() {
+        if(map.getSource('directions')) {clearInterval(timerInterval);}
+        if(!map.getSource('directions') && map.loaded()) {
+            	console.log("Updating Map Directions");
+            	map.addSource('directions', {
+                type:'geojson',
+                data:{...routeData}
+            });
+
+            routeLayers.forEach(layer => map.addLayer(layer));
+            // directions.setOrigin(origin.geometry.coordinates);
+            clearInterval(timerInterval);
+        }
+
+        map.getLayer('defibrilators') ? "": addDefibrilators();
+    }
+
+    
+}
+
+	    
 // geolocation Control
 // Add geolocate control to the map.
 
